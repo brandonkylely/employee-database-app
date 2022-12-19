@@ -49,13 +49,38 @@ function startApplication() {
                     type: 'input',
                     name: 'departmentName',
                     message: "What is the name of the department you would like to add?",
-                }
+                },
             ]).then(({departmentName}) => {
                 addDepartment(departmentName);
-                console.log(`${departmentName} has been successfully added.`)
+                console.log(`${departmentName} has been successfully added.`);
+                startApplication()
             });
             break;
         case 'Add a role':
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'roleTitle',
+                    message: "What is the title of the role you would like to add?",
+                },
+                {
+                    type: 'input',
+                    name: 'roleSalary',
+                    message: "What is the salary of the role you would like to add?",
+                },
+                {
+                    type: 'list',
+                    name: 'roleDepartment',
+                    message: "What department is this role associated with?",
+                    choices: [
+
+                    ]
+                },
+            ]).then(({roleTitle, roleSalary, roleDepartment}) => {
+                addRole(roleTitle, roleSalary, roleDepartment);
+                console.log(`${roleTitle} has been successfully added.`);
+                startApplication()
+            });
             addRole();
             break;
         case 'Add an employee':
@@ -67,5 +92,62 @@ function startApplication() {
 });
 }
 
+function viewDepartments() {
+    db.query(`SELECT * FROM department`, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        // console.log(result);
+    });
+}
+
+function addDepartment(department) {
+    db.query(`INSERT INTO department (name) VALUES ('${department}');`, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        // console.log(result);
+    });
+}
+
+function viewRoles() {
+    db.query(`SELECT * FROM role`, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        // console.log(result);
+    });
+}
+
+function addRole(roleTitle, roleSalary, roleDepartment) {
+    db.query(`INSERT INTO role (title, salary, department_id) VALUES ('${roleTitle}' '${roleSalary}' '${roleDepartment}');`, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        // console.log(result);
+    });
+}
+
+function grabDepartmentNames() {
+    // select department names and return a new array with every department name
+}
+
+function viewEmployees() {
+    db.query(`SELECT * FROM employees`, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        // console.log(result);
+    });
+}
+
+function addEmployee(employee) {
+    db.query(`INSERT INTO employees (name) VALUES ('${employee}');`, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        // console.log(result);
+    });
+}
 
 startApplication()
