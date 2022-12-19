@@ -4,9 +4,9 @@ const consoleTable = require('console.table');
 
 const PORT = process.env.PORT || 3001;
 
-const departments = require('./lib/departments')
-const employees = require('./lib/employees')
-const roles = require('./lib/roles')
+// const departments = require('./lib/departments');
+// const employees = require('./lib/employees');
+// const roles = require('./lib/roles');
 
 const db = mysql.createConnection(
     {
@@ -46,7 +46,16 @@ function startApplication() {
             viewEmployees();
             break;
         case 'Add a department':
-            addDepartment();
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'departmentName',
+                    message: "What is the name of the department you would like to add?",
+                }
+            ]).then(({departmentName}) => {
+                addDepartment(departmentName);
+                console.log(`${departmentName} has been successfully added.`)
+            });
             break;
         case 'Add a role':
             addRole();
