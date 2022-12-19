@@ -1,10 +1,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
-const express = require('express');
-
-const app = express();
-const PORT = process.env.PORT || 3001;
 
 // const departments = require('./lib/departments');
 // const employees = require('./lib/employees');
@@ -70,11 +66,6 @@ function startApplication() {
     }
 });
 }
-
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
 
 
 startApplication()
