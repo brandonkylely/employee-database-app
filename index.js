@@ -3,13 +3,15 @@ const inquirer = require("inquirer");
 const consoleTable = require("console.table");
 
 const {viewDepartments, addDepartment} = require('./lib/departments');
+const {viewRoles, addRole} = require('./lib/roles');
+const {viewEmployees, addEmployee} = require('./lib/employees');
 
 // const departments = require('./lib/departments');
 // const employees = require('./lib/employees');
 // const roles = require('./lib/roles');
 
-var departmentArray = [];
-var roleArray = [];
+// var departmentArray = [];
+// var roleArray = [];
 
 const db = mysql.createConnection(
   {
@@ -44,10 +46,10 @@ function startApplication() {
           viewDepartments(db, startApplication);
           break;
         case "View all roles":
-          viewRoles();
+          viewRoles(db, startApplication);
           break;
         case "View all employees":
-          viewEmployees();
+          viewEmployees(db, startApplication);
           break;
         case "Add a department":
           inquirer
@@ -60,15 +62,42 @@ function startApplication() {
               },
             ])
             .then(({ departmentName }) => {
-              addDepartment(db, departmentName);
-              console.log(`${departmentName} has been successfully added.`);
+              addDepartment(db, departmentName, startApplication);
             });
           break;
         case "Add a role":
-        addRole();
+          addRole(db, startApplication)
+          // inquirer
+          // .prompt([
+          //   {
+          //     type: "input",
+          //     name: "title",
+          //     message:
+          //       "What is the title of the role you would like to add?",
+          //   },
+          //   {
+          //     type: "input",
+          //     name: "salary",
+          //     message:
+          //       "What is the salary of ths role?",
+          //   },
+          //   {
+          //     type: "list",
+          //     name: "department_id",
+          //     message:
+          //       "What department does this role belong to?",
+          //     choices: [
+
+          //     ],
+          //   },
+          // ])
+          // .then(({title, salary, department_id }) => {
+          //   addRole(db, title, salary, department_id);
+          //   console.log(`${title} has been successfully added.`);
+          // });
           break;
         case "Add an employee":
-          addEmployee();
+          addEmployee(db);
           break;
         default:
           console.log("Something went wrong.");
@@ -78,59 +107,59 @@ function startApplication() {
 
 // TODO: FINISH EMPLOYEE FUNCTION, MODULARIZE, ADD UPDATE AND DELETE FUNCTIONALITY
 
-function viewRoles() {
-  db.query(`SELECT * FROM role`, (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log(result);
-    startApplication();
-  });
-}
+// function viewRoles() {
+//   db.query(`SELECT * FROM role`, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     console.log(result);
+//     startApplication();
+//   });
+// }
 
-function addRole() {
-  db.query("SELECT name, id AS value FROM department", (err, result) => {
-    console.log(result);
-    inquirer
-      .prompt([
-        {
-          type: "input",
-          name: "roleTitle",
-          message: "What is the title of the role you would like to add?",
-        },
-        {
-          type: "input",
-          name: "roleSalary",
-          message: "What is the salary of the role you would like to add?",
-        },
-        {
-          type: "list",
-          name: "roleDepartment",
-          message: "What department is this role associated with?",
-          choices: result,
-        },
-      ])
-      .then(({ roleTitle, roleSalary, roleDepartment }) => {
-        roleAction(roleTitle, roleSalary, roleDepartment);
-        console.log(`${roleTitle} has been successfully added.`);
-      });
-  });
-}
+// function addRole() {
+//   db.query("SELECT name, id AS value FROM department", (err, result) => {
+//     console.log(result);
+//     inquirer
+//       .prompt([
+//         {
+//           type: "input",
+//           name: "roleTitle",
+//           message: "What is the title of the role you would like to add?",
+//         },
+//         {
+//           type: "input",
+//           name: "roleSalary",
+//           message: "What is the salary of the role you would like to add?",
+//         },
+//         {
+//           type: "list",
+//           name: "roleDepartment",
+//           message: "What department is this role associated with?",
+//           choices: result,
+//         },
+//       ])
+//       .then(({ roleTitle, roleSalary, roleDepartment }) => {
+//         roleAction(roleTitle, roleSalary, roleDepartment);
+//         console.log(`${roleTitle} has been successfully added.`);
+//       });
+//   });
+// }
 
-function roleAction(roleTitle, roleSalary, roleDepartment) {
-  db.query(
-    `
-        INSERT INTO role (title, salary, department_id) VALUES ('${roleTitle}', '${roleSalary}', '${roleDepartment}');
-        `,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      }
-      viewRoles();
-      // console.log(result);
-    }
-  );
-}
+// function roleAction(roleTitle, roleSalary, roleDepartment) {
+//   db.query(
+//     `
+//         INSERT INTO role (title, salary, department_id) VALUES ('${roleTitle}', '${roleSalary}', '${roleDepartment}');
+//         `,
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       }
+//       viewRoles();
+//       // console.log(result);
+//     }
+//   );
+// }
 
 // function grabDepartmentNames() {
 //   // select departments
@@ -151,27 +180,27 @@ function roleAction(roleTitle, roleSalary, roleDepartment) {
 //   });
 // }
 
-function viewEmployees() {
-  db.query(`SELECT * FROM employee`, (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log(result);
-    startApplication();
-  });
-}
+// function viewEmployees() {
+//   db.query(`SELECT * FROM employee`, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     console.log(result);
+//     startApplication();
+//   });
+// }
 
-function addEmployee(employee) {
-  db.query(
-    `INSERT INTO employee (name) VALUES ('${employee}');`,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-      }
-      viewEmployees();
-      // console.log(result);
-    }
-  );
-}
+// function addEmployee(employee) {
+//   db.query(
+//     `INSERT INTO employee (name) VALUES ('${employee}');`,
+//     (err, result) => {
+//       if (err) {
+//         console.log(err);
+//       }
+//       viewEmployees();
+//       // console.log(result);
+//     }
+//   );
+// }
 
 startApplication();
