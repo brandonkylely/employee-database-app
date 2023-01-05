@@ -66,38 +66,10 @@ function startApplication() {
             });
           break;
         case "Add a role":
-          addRole(db, startApplication)
-          // inquirer
-          // .prompt([
-          //   {
-          //     type: "input",
-          //     name: "title",
-          //     message:
-          //       "What is the title of the role you would like to add?",
-          //   },
-          //   {
-          //     type: "input",
-          //     name: "salary",
-          //     message:
-          //       "What is the salary of ths role?",
-          //   },
-          //   {
-          //     type: "list",
-          //     name: "department_id",
-          //     message:
-          //       "What department does this role belong to?",
-          //     choices: [
-
-          //     ],
-          //   },
-          // ])
-          // .then(({title, salary, department_id }) => {
-          //   addRole(db, title, salary, department_id);
-          //   console.log(`${title} has been successfully added.`);
-          // });
+          addRole(db, startApplication);
           break;
         case "Add an employee":
-          addEmployee(db);
+          addEmployee(db, startApplication);
           break;
         default:
           console.log("Something went wrong.");
