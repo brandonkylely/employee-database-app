@@ -4,7 +4,7 @@ const consoleTable = require("console.table");
 
 const {viewDepartments, addDepartment} = require('./lib/departments');
 const {viewRoles, addRole} = require('./lib/roles');
-const {viewEmployees, addEmployee} = require('./lib/employees');
+const {viewEmployees, addEmployee, assignManager} = require('./lib/employees');
 
 // const departments = require('./lib/departments');
 // const employees = require('./lib/employees');
@@ -37,6 +37,7 @@ function startApplication() {
           "Add a department",
           "Add a role",
           "Add an employee",
+          "Assign a Manager",
         ],
       },
     ])
@@ -70,6 +71,9 @@ function startApplication() {
           break;
         case "Add an employee":
           addEmployee(db, startApplication);
+          break;
+        case "Assign a Manager":
+          assignManager(db, startApplication);
           break;
         default:
           console.log("Something went wrong.");
