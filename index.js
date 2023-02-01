@@ -47,7 +47,7 @@ function startApplication() {
           "Add a department",
           "Add a role",
           "Add an employee",
-          "Assign a Manager",
+          "Assign/Update a Manager",
         ],
       },
     ])
@@ -82,7 +82,7 @@ function startApplication() {
         case "Add an employee":
           addEmployee(db, startApplication);
           break;
-        case "Assign a Manager":
+        case "Assign/Update a Manager":
           assignManager(db, startApplication);
           break;
         default:
