@@ -91,7 +91,7 @@ function startApplication() {
     });
 }
 
-// TODO: ADD UPDATE AND DELETE FUNCTIONALITY
+// In progress: update, delete, view total salary of department
 
 
 startApplication();
