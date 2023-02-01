@@ -1,12 +1,27 @@
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
-const consoleTable = require("console.table");
+const figlet = require("figlet");
+// const consoleTable = require("console.table");
 
 const {viewDepartments, addDepartment} = require('./lib/departments');
 const {viewRoles, addRole} = require('./lib/roles');
 const {viewEmployees, addEmployee, assignManager} = require('./lib/employees');
 
-
+console.log(
+  figlet.textSync("launching employee database...", {
+    horizontalLayout: "default",
+    verticalLayout: "default",
+    width: 200,
+    whitespaceBreak: true,
+  }, function(err, data) {
+    if (err) {
+      console.log('Something went wrong...');
+      console.dir(err);
+      return;
+    }
+    console.log(data);
+  })
+);
 
 const db = mysql.createConnection(
   {
